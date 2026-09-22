@@ -29,4 +29,7 @@ jobs:
       - name: Regression suite (no model credentials)
         run: npm test
       - name: Build backend and web
+        env:
+          # The upstream Markdown/diagram renderers exceed the runner's default 2 GiB heap.
+          NODE_OPTIONS: --max-old-space-size=4096
         run: npm run build

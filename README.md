@@ -73,6 +73,8 @@ npm run start:relay
 
 `RELAY_PORT` 可修改端口；`RELAY_NODE` 可指定 Node.js 可执行文件。服务仅监听 `127.0.0.1`。
 
+前端包含上游 Markdown、图表等渲染依赖。若构建出现 `JavaScript heap out of memory`，在内存充足的机器上执行 `NODE_OPTIONS=--max-old-space-size=4096 npm run build`；本仓库 CI 已设置该构建堆上限。
+
 ### 测试与验收
 
 ```bash
