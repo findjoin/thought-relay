@@ -1,3 +1,5 @@
+import { RelayStore, relayContext } from "../relay/store.js";
+import { createRelayTools, RELAY_GUIDE } from "../relay/tools.js";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -276,6 +278,9 @@ export function createInnoExtension(
 		// toggles take effect without a restart.
 		const isL1Enabled = () => configHolder.current.memory?.l1Enabled !== false;
 		const isL2Enabled = () => configHolder.current.memory?.l2Enabled !== false;
+		let relayPrompt = "";
+		const relayStore = () => new RelayStore(paths.dataDir, resolveActiveWorkspaceDir(paths, deps));
+		for (const tool of createRelayTools(relayStore, () => relayPrompt, () => deps?.getCurrentSessionId?.() ?? "", isL1Enabled)) pi.registerTool(tool);
 
 		// 2. Register L1 learner tools (gated on config.memory.l1Enabled)
 		const learnerTools = createLearnerTools(
@@ -453,7 +458,9 @@ export function createInnoExtension(
 
 			// 6. Inject L1 context and custom system prompt before each agent turn
 			pi.on("before_agent_start", async (event, ctx) => {
-				const sections: string[] = [INNO_SYSTEM_PROMPT];
+				relayPrompt = event.prompt;
+				const sections: string[] = [INNO_SYSTEM_PROMPT, RELAY_GUIDE];
+				if (isL1Enabled()) sections.push(relayContext(relayStore().read()));
 
 				// Inject the L1 learner context pack (profile + recent events)
 				// unless the learner has turned L1 off in settings.

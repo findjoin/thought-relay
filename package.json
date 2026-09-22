@@ -1,8 +1,8 @@
 {
-	"name": "inno-agent",
+	"name": "thought-relay",
 	"version": "0.6.2",
 	"private": true,
-	"description": "Personal learning agent built on PI SDK with three-layer memory system",
+	"description": "Chinese personal agent with source-traceable, editable cross-session memory; based on Inno Agent",
 	"author": "Inno Agent Contributors",
 	"type": "module",
 	"workspaces": [
@@ -33,10 +33,13 @@
 		"showcase:view": "node scripts/view-showcase-export.mjs",
 		"electron:build:mac:signed": "bash scripts/build-mac-signed.sh",
 		"electron:package:mac:signed": "node scripts/check-mac-signing.cjs && electron-builder --config build/electron-builder.mac-signed.cjs --mac dmg --arm64 --publish never && bash scripts/verify-mac-release.sh",
-		"test:mac-signing": "node --test scripts/check-mac-signing.test.cjs"
+		"test:mac-signing": "node --test scripts/check-mac-signing.test.cjs",
+		"start:relay": "bash start-relay.sh",
+		"test:relay": "vitest run apps/inno-agent/src/relay/relay.test.ts apps/inno-agent/src/memory/l3/l3.test.ts apps/inno-agent/src/agent/pi-runner.test.ts",
+		"verify:live": "node scripts/verify-relay.mjs"
 	},
 	"engines": {
-		"node": ">=20.6.0"
+		"node": ">=24.0.0"
 	},
 	"build": {
 		"appId": "com.inno.agent",
@@ -144,5 +147,8 @@
 			"rimraf": "6.1.2"
 		},
 		"xlsx": "$xlsx"
-	}
+	},
+	"contributors": [
+		"XiangYu Zhang (findjoin) - Thought Relay additions"
+	]
 }

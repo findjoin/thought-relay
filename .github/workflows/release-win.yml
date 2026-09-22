@@ -19,6 +19,8 @@ permissions:
 
 jobs:
   build-win:
+    # Thought Relay targets the Web edition; keep upstream desktop releases upstream.
+    if: github.repository == 'hhyqhh/inno-agent'
     runs-on: windows-latest
 
     steps:

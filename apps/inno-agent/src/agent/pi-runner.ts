@@ -781,6 +781,14 @@ function eventErrorMessage(event: AgentSessionEvent): string | undefined {
 	return undefined;
 }
 
+/** Thought Relay: a recovered transport failure must not poison the completed turn. */
+export function nextPromptError(previous: string | undefined, event: AgentSessionEvent): string | undefined {
+	if (event.type === "auto_retry_end") {
+		return event.success ? undefined : (event.finalError || previous || "模型重试失败");
+	}
+	return eventErrorMessage(event) || previous;
+}
+
 function lastAssistantError(session: AgentSession): string | undefined {
 	for (let index = session.messages.length - 1; index >= 0; index--) {
 		const message = session.messages[index];
@@ -1271,6 +1279,7 @@ export async function runPrompt(
 
 	const unsubscribe = session.subscribe((event) => {
 		notifyPromptEvent(event);
+		streamError = nextPromptError(streamError, event);
 		if (event.type === "message_update") {
 			const ev = event.assistantMessageEvent;
 			if (ev.type === "text_delta") {
@@ -1567,6 +1576,7 @@ export function runPromptStreaming(
 
 		const unsubscribe = session.subscribe((event) => {
 			notifyPromptEvent(event);
+		streamError = nextPromptError(streamError, event);
 			if (
 				!retryingWithoutNativeImages &&
 				isNativeImagePayloadError(eventErrorMessage(event))
@@ -1683,6 +1693,7 @@ export function runPromptStreamingInSession(
 				const obsUnsub = session.subscribe(promptObserver);
 				const unsubscribe = session.subscribe((event) => {
 					notifyPromptEvent(event);
+		streamError = nextPromptError(streamError, event);
 					if (
 						!retryingWithoutNativeImages &&
 						isNativeImagePayloadError(eventErrorMessage(event))

@@ -142,13 +142,20 @@ function isDiagnosticSummary(value?: string): boolean {
 	return Boolean(value?.trim() && /(abort|aborted|cancel|cancelled|canceled|fail|failed|error|timeout|错误|失败|中断|取消|停止)/i.test(value));
 }
 
+function displayToolName(name: string, t: TFunction): string {
+	if (name === "relay_read") return t("chat.trace.relayRead", "读取接力记忆");
+	if (name === "relay_update") return t("chat.trace.relayUpdate", "保存接力记忆");
+	return name;
+}
+
 function localizedStepTitle(step: ChatTraceStep, t: TFunction): string {
+	if (step.title.trim() === "Request was aborted") return t("chat.trace.requestAborted", "本轮请求已停止");
 	if (step.kind === "system" && step.summary?.trim() && isDiagnosticSummary(step.summary)) return step.title;
 	return step.titleKey ? t(step.titleKey, step.title, step.titleParams) : step.title;
 }
 
 function toolSummary(step: ChatTraceStep, t: TFunction): string {
-	const toolName = step.toolName?.trim() || localizedStepTitle(step, t);
+	const toolName = displayToolName(step.toolName?.trim() || localizedStepTitle(step, t), t);
 	const target = firstTarget(step.args) ?? firstTarget(step.argsText);
 	const live = step.status === "running" ? liveToolText(step.partialResult) : undefined;
 	return [
@@ -347,7 +354,7 @@ function rowSummary(step: ChatTraceStep, durationMs: number | undefined, t: TFun
 function shimmerTitleFor(step: ChatTraceStep, t: TFunction): string | undefined {
 	if (step.kind === "thinking" && step.status === "active") return t("chat.trace.thinking.inProgress", "思考中");
 	if (step.kind === "tool" && (step.status === "active" || step.status === "preparing" || step.status === "running")) {
-		return step.toolName?.trim() || localizedStepTitle(step, t);
+		return displayToolName(step.toolName?.trim() || localizedStepTitle(step, t), t);
 	}
 	return undefined;
 }

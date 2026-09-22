@@ -101,8 +101,8 @@
 	},
 	"desktop": {
 		"closeDialog": {
-			"title": "关闭 Inno Agent",
-			"message": "要如何关闭 Inno Agent？",
+			"title": "关闭 念头接力",
+			"message": "要如何关闭 念头接力？",
 			"detail": "选择“关闭窗口”会让应用继续在后台运行；选择“退出应用”会停止后台服务。勾选“记住我的选择”后，下次将直接使用该选择，也可以在设置 > 通用中修改。",
 			"buttons": {
 				"hide": "关闭窗口",
@@ -480,7 +480,7 @@
 		"package": "默认包格式：",
 		"packageDesc": "ZIP 包内需包含 SKILL.md 文件。",
 		"empty": "暂无技能",
-		"emptyDesc": "上传 <skill-name>.zip，Inno Agent 会自动解压并加载。",
+		"emptyDesc": "上传 <skill-name>.zip，念头接力 会自动解压并加载。",
 		"noDescription": "暂无描述",
 		"loaded": "已加载",
 		"notLoaded": "未加载",
@@ -870,7 +870,7 @@
 		}
 	},
 	"chat": {
-		"welcomePlaceholder": "有什么想学习或实践的?发送消息开始…",
+		"welcomePlaceholder": "说说现在脑子里的事，或把读到的资料放进来…",
 		"slashPalette": {
 			"ariaLabel": "斜杠命令",
 			"appGroup": "应用操作",
@@ -1008,7 +1008,10 @@
 				"autoRetryEnd": "自动重试结束",
 				"entryAppended": "已记录会话事件",
 				"bashExecutionUpdate": "终端执行更新"
-			}
+			},
+			"relayRead": "读取接力记忆",
+			"relayUpdate": "保存接力记忆",
+			"requestAborted": "本轮请求已停止"
 		},
 		"emptySessionTitle": "此会话暂无消息",
 		"emptySessionHint": "在下方输入消息，开始新的对话。",
@@ -1346,6 +1349,6 @@
 		"loadErrorDetail": "无法读取此前的随便问问记录。为避免覆盖已保存的内容，请重试加载成功后再使用。"
 	},
 	"welcome": {
-		"greeting": "今天想学点什么？"
+		"greeting": "把现在的念头，接到下一步。"
 	}
 }

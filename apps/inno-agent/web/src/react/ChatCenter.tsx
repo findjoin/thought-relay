@@ -1,3 +1,4 @@
+import { RelayMemory } from "./RelayMemory.js";
 import {
 	useCallback,
 	useEffect,
@@ -1610,7 +1611,7 @@ export function ChatCenter({ onOpenPresetPanels, onPreviewFile }: ChatCenterProp
 				questionHint={questionHint}
 				busyBlocker={busyBlocker}
 				smartToast={smartToastNode}
-				composer={renderComposer(t("chat.welcomePlaceholder"))}
+				composer={<>{renderComposer(t("chat.welcomePlaceholder"))}<div className="mt-4 flex flex-wrap justify-center gap-2"><RelayMemory workspaceId={selectedWorkspaceId} disabled={wsMode === "new"} /><button className="rounded-lg border border-[var(--inno-border)] px-3 py-2 text-sm text-[var(--inno-text-muted)]" onClick={() => setComposerText("帮我记住：我正在准备 AI 应用 FAE 面试，下一步是把一个项目接通并亲自试用。")}>接住一个念头</button><button className="rounded-lg border border-[var(--inno-border)] px-3 py-2 text-sm text-[var(--inno-text-muted)]" onClick={() => setComposerText("接着上次，先告诉我你记得哪些目标，再给我一个现在能完成的小步骤。")}>接着上次继续</button></div></>}
 				presets={presets}
 				presetsLoaded={presetsLoaded}
 				isLoadingPresets={isLoadingPresets}
@@ -1651,7 +1652,7 @@ export function ChatCenter({ onOpenPresetPanels, onPreviewFile }: ChatCenterProp
 			busyBlocker={busyBlocker}
 			smartToast={smartToastNode}
 			composer={renderComposer(t("chat.composerPlaceholder"))}
-			btwControl={btwControl}
+			btwControl={<><RelayMemory workspaceId={headerWorkspaceId} />{btwControl}</>}
 			btwPanel={<BtwPanel />}
 			onOpenAttachment={openChatAttachmentPreview}
 			onOpenSkill={openSkillPanel}

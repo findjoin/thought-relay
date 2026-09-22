@@ -51,6 +51,7 @@ import { handleSettingsRoutes } from "./server/routes/settings.js";
 import { handleSkillsRoutes } from "./server/routes/skills.js";
 import { handleWorkspacesRoutes } from "./server/routes/workspaces.js";
 import { handleSessionsRoutes } from "./server/routes/sessions.js";
+import { handleRelayRoutes } from "./server/routes/relay.js";
 import { handleLearnerRoutes } from "./server/routes/learner.js";
 import { handleWikiRoutes } from "./server/routes/wiki.js";
 import { handlePresetsRoutes } from "./server/routes/presets.js";
@@ -1514,6 +1515,8 @@ const server = createServer(async (req, res) => {
 			await ensureBootstrapped();
 		}
 
+		if (await handleRelayRoutes(req, res, method, url, { dataDir, workspaceRegistry })) return;
+
 		// --- Check-ins API ---
 		if (await handleCheckInsRoutes(req, res, method, url, { checkInStore })) return;
 
@@ -1810,7 +1813,7 @@ installProcessFallbacks({
 	},
 });
 
-server.listen(port, () => {
+server.listen(port, "127.0.0.1", () => {
 	console.log(`[inno-server] listening on http://localhost:${port}`);
 	console.log(`[inno-server] config: ${paths.configPath}`);
 });

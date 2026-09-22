@@ -1,6 +1,6 @@
 {
-	"name": "Inno Agent",
-	"short_name": "Inno Agent",
+	"name": "念头接力",
+	"short_name": "念头接力",
 	"description": "Personal learning agent",
 	"start_url": "/",
 	"scope": "/",

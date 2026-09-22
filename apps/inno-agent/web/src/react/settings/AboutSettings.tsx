@@ -26,6 +26,11 @@ export function AboutSettings() {
 	return (
 		<SettingsSection title={t("settings.tabs.about")} description={t("settings.sections.about.desc", "服务状态与存储统计")}>
 			<SettingsCard>
+				<h3 className="mb-2 text-lg font-semibold">念头接力 · Thought Relay</h3>
+				<p className="mb-2 text-sm">项目改造与接力记忆模块：Thought Relay contributors。新增当前目标接续、来源校验、用户纠正与版本冲突保护，重构历史检索结果选择。</p>
+				<p className="text-xs text-[var(--inno-text-muted)]">基于 <a href="https://github.com/hhyqhh/inno-agent" target="_blank" rel="noreferrer" className="underline">Inno Agent</a>（MIT）开发，保留上游聊天、资料库、练习工具与作者版权声明。</p>
+			</SettingsCard>
+			<SettingsCard>
 				<div className="mb-3 flex items-center justify-between">
 					<h4 className="text-sm font-medium text-[var(--inno-text)]">{t("settings.title")}</h4>
 					<button className="shrink-0 rounded-md border border-[var(--inno-border)] bg-[var(--inno-surface)] px-3 py-1.5 text-sm text-[var(--inno-text-muted)] hover:bg-[var(--inno-surface-muted)] hover:text-[var(--inno-text)]" onClick={() => void settingsStore.load()}>

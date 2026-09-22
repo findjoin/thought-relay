@@ -75,7 +75,16 @@ export function ChatWelcome({
 	wsError,
 	topOverlay,
 }: ChatWelcomeProps) {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	// Reading aids for the English-only upstream catalog entries; IDs stay intact.
+	if (i18n.language.startsWith("zh")) {
+		const labels: Record<string, [string, string]> = {
+			"IELTS Prep Coach": ["雅思训练教练", "写作评估、阅读练习、生词卡片与每周复习。"],
+			"Interactive Math Solver": ["交互式数学解题", "用计算与二维、三维可视化拆解数学问题。"],
+			"Teaching Webpage": ["课堂互动网页", "把知识点、随堂测验与课堂小结整理为可交互网页。"],
+		};
+		presets = presets.map(p => labels[p.name] ? { ...p, name: labels[p.name][0], description: labels[p.name][1] } : p);
+	}
 	const refreshStatusLabel = presetRefreshStatus === "success" ? t("presets.refreshSucceeded") : t("presets.refreshFailed");
 	const visiblePresets = presetQuery
 		? presets.filter((preset) => matchesQuery(
@@ -99,9 +108,9 @@ export function ChatWelcome({
 				}}
 			/>
 			<div className="relative z-[1] flex min-h-0 flex-1 justify-center overflow-y-auto px-4">
-				<div ref={welcomeLayoutRef} className="inno-welcome-layout flex w-full max-w-[760px] flex-col items-center pb-12 pt-[14vh]">
+				<div ref={welcomeLayoutRef} className="inno-welcome-layout flex w-full max-w-[760px] flex-col items-center pb-12 pt-[10vh]">
 					<div className="inno-welcome-upper flex w-full flex-col items-center text-center">
-						<div className="mb-4 flex h-12 w-12 select-none items-center justify-center rounded-xl border border-[var(--inno-border)] bg-[var(--inno-surface)] text-base font-semibold text-[var(--inno-text)] shadow-sm">IA</div>
+						<div className="mb-4 flex h-12 w-12 select-none items-center justify-center rounded-xl border border-[var(--inno-border)] bg-[var(--inno-surface)] text-base font-semibold text-[var(--inno-text)] shadow-sm">接</div>
 						<h1 className="text-[28px] font-normal tracking-wide text-[var(--inno-text)]">{t("welcome.greeting")}</h1>
 
 						{questionHint}

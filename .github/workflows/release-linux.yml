@@ -19,6 +19,8 @@ permissions:
 
 jobs:
   build-linux:
+    # Thought Relay targets the Web edition; keep upstream desktop releases upstream.
+    if: github.repository == 'hhyqhh/inno-agent'
     runs-on: ubuntu-latest
 
     steps:

@@ -618,9 +618,9 @@ function SidebarUserMenu() {
 				onClick={() => setOpen((v) => !v)}
 			>
 				<span className="flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-full border border-[var(--inno-border)] bg-[var(--inno-surface)] text-[10px] font-semibold text-[var(--inno-text)]">
-					IA
+					接
 				</span>
-				<span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[var(--inno-text)]">Inno Agent</span>
+				<span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[var(--inno-text)]">念头接力</span>
 				<SettingsIcon size={14} className="shrink-0 text-[var(--inno-text-subtle)]" />
 			</button>
 			{open ? (
@@ -1082,14 +1082,14 @@ export function SessionSidebar({ collapsed }: SessionSidebarProps) {
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-2 min-w-0">
 						<div className="flex h-7 w-7 shrink-0 select-none items-center justify-center rounded-lg border border-[var(--inno-border)] bg-[var(--inno-surface)] text-[10px] font-semibold text-[var(--inno-text)] shadow-sm">
-							IA
+							接
 						</div>
 						<div className="min-w-0">
 							<h1
 								className="inno-sidebar-title bg-clip-text font-semibold tracking-tight text-transparent"
 								style={{ backgroundImage: "linear-gradient(120deg, var(--inno-brand-1), var(--inno-brand-2))" }}
 							>
-								Inno Agent
+								念头接力
 							</h1>
 						</div>
 					</div>

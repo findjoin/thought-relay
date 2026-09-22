@@ -1008,7 +1008,10 @@
 				"autoRetryEnd": "Automatic retry finished",
 				"entryAppended": "Session event recorded",
 				"bashExecutionUpdate": "Terminal execution updated"
-			}
+			},
+			"relayRead": "Read relay memory",
+			"relayUpdate": "Save relay memory",
+			"requestAborted": "Request stopped"
 		},
 		"emptySessionTitle": "No messages in this conversation",
 		"emptySessionHint": "Type a message below to start the conversation.",

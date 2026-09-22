@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import {
 	finalizePromptRun,
+	nextPromptError,
 	isNativeImageCapabilityError,
 	isNativeImagePayloadError,
 	isOversizedPayloadError,
@@ -98,5 +99,26 @@ describe("oversized payload classification", () => {
 		undefined,
 	])("ignores unrelated errors: %s", (message) => {
 		expect(isOversizedPayloadError(message)).toBe(false);
+	});
+});
+
+// Regression from a live Thought Relay run: tool write + answer succeeded,
+// but an earlier transport termination still turned the HTTP result into 500.
+describe("recovered provider failures", () => {
+	const failure = { type: "message_end", message: { role: "assistant", stopReason: "error", errorMessage: "terminated" } } as never;
+	it("clears a recovered failure at the SDK retry boundary", () => {
+		let error = nextPromptError(undefined, failure);
+		expect(error).toBe("terminated");
+		error = nextPromptError(error, { type: "auto_retry_end", success: true, attempt: 1 } as never);
+		error = nextPromptError(error, { type: "message_end", message: { role: "assistant", stopReason: "stop" } } as never);
+		expect(error).toBeUndefined();
+	});
+	it("keeps exhausted retries as failures", () => {
+		const error = nextPromptError(nextPromptError(undefined, failure), { type: "auto_retry_end", success: false, finalError: "quota exhausted", attempt: 3 } as never);
+		expect(error).toBe("quota exhausted");
+	});
+	it("does not hide a new failure after successful recovery", () => {
+		const recovered = nextPromptError("old error", { type: "auto_retry_end", success: true, attempt: 1 } as never);
+		expect(nextPromptError(recovered, failure)).toBe("terminated");
 	});
 });
